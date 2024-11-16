@@ -1,6 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
 import { dbConnection } from "./dbConnection/dbcon.js";
+import urlRoutes from "./routes/url.js"
 
 dotenv.config();
 
@@ -27,6 +28,4 @@ dbConnection(process.env.MONGO_URI)
   });
 
 // Routes
-app.get("/", (req, res) => {
-  res.send("Welcome to the home page");
-});
+app.use("/", urlRoutes)
