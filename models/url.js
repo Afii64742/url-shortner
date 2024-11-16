@@ -16,6 +16,6 @@ import { Schema } from "mongoose";
         default:0
     }
 
-})
+},{ timestamps: true })
 
-export const url = mongoose.model('url', urlSchema)
+export const URL = mongoose.model('url', urlSchema)
