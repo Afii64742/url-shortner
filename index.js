@@ -1,5 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import ejs from 'ejs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import { dbConnection } from './dbConnection/dbcon.js';
 import urlRoutes from './routes/url.js';
 
@@ -7,9 +10,19 @@ dotenv.config();
 
 const app = express();
 
-// Middleware for parsing FormData
-app.use(express.urlencoded({ extended: true }));  // Parses incoming URL-encoded data
-app.use(express.json()); // Optionally, if you're dealing with JSON as well
+// Define __dirname for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.urlencoded({ extended: true })); // Parses incoming URL-encoded data
+app.use(express.json()); 
+
+// ejs Template engine 
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views')); // Adjust the path to match your folder structure
+
+// Middleware to serve static files (CSS, images, etc.)
+app.use(express.static(path.join(__dirname, 'public')));
 
 const PORT = process.env.PORT || 3000;
 
@@ -29,4 +42,5 @@ dbConnection(process.env.MONGO_URI)
   });
 
 // Routes
-app.use("/api/url", urlRoutes);
+app.use('/api/url', urlRoutes);
+

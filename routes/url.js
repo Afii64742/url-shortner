@@ -5,20 +5,32 @@ import { URL } from "../models/url.js";  // Assuming you have a URL model
 const router = express.Router();
 router.post("/", async (req, res) => {
   const { url } = req.body;
+
   if (!url) {
     return res.status(400).send({ message: "URL is required" });
   }
-  const shortID = shortid.generate();
-  
- 
-   const newURl = new URL({
-      shortId:shortID,
-      originalURL:url,
-     })
 
-     await newURl.save();
-  
-  return res.send({ shortURL: `http://localhost:3000/api/url/${shortID}` }); 
+  const shortID = shortid.generate();
+
+  // Create a new URL entry in the database
+  const newURl = new URL({
+    shortId: shortID,
+    originalURL: url,
+  });
+
+  await newURl.save();
+
+  // Render the index.ejs page with both shortURL and originalURL
+  return res.render("index", {
+    shortURL: `http://localhost:3000/api/url/${shortID}`
+  });
+});
+
+
+router.get("/", (req, res) => {
+  return res.render("index", {
+    shortURL: null, 
+  });
 });
 
 router.get("/:shortID", async (req, res) => {

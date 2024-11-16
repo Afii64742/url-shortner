@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Shortener</title>
+</head>
+<body>
+    <h1>URL Shortener</h1>
+    <p>A blazing-fast URL Shortener with SSR using Express.js and EJS, featuring seamless redirects, click tracking, and dynamic URL management</p>
+   
+    <!-- Form to submit URL -->
+    <form action="/api/url" method="POST">
+        <label for="url">Enter your URL:</label>
+        <input type="text" id="url" name="url" required placeholder="Enter URL here">
+        <button type="submit">Shorten URL</button>
+    </form>
+
+    <!-- If the shortURL exists, display it -->
+    <% if (shortURL) { %>
+        <h2>Your shortened URL:</h2>
+        <a href="<%= shortURL %>" target="_blank"><%= shortURL %></a>
+    <% } %>
+
+
+
+</body>
+</html>
